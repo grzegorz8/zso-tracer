@@ -1,0 +1,40 @@
+Grzegorz Kołakowski, gk291583
+
+Rozwiązanie zadania 3
+
+Nowe pliki:
+    include/trace/trace_file.h
+    kernel/trace/trace_file.c
+    
+Zmodyfikowane pliki:
+    fs/open.c
+    fs/read_write.c
+    include/linux/fs.h
+    kernel/trace/Kconfig
+    kernel/trace/Makefile
+
+W skrócie śledzenie operacji wykonywanych na plikach opiera się na
+tracepointach. Odpowiednie tracepointy dodane są w definicjach wywołań
+systemowych funkcji open, close, read, write, lseek.
+
+Definicje tracepointów umieszczone są w pliku include/trace/trace_file.h.
+Funkcje obsługujące tracepointy są zdefiniowane w plikach
+kernel/trace/trace_file.c. 
+
+Sam tracer definiuje jedynie dwie funkcje, wywoływane przy przełączaniu
+aktywnego tracera: init, reset. W nich rejestrowne/wyrejestrowywane
+są funkcje obsługujące poszczególne tracepointy: probe_file_open,
+probe_file_close, probe_file_lseek, probe_file_read, probe_file_write.
+
+Aby dodać do jądra opcję śledzenia operacji na plikach wystarczy włączyć opcję
+Kernel hacking -> Tracers. File_tracer zostanie wówczas automatycznie
+zaznaczony.
+
+==============================================================================
+Ocena
+
+Sprawdzenie kodu:
+
+1. print_data_line: brak sprawdzania wyniku z kmalloc [-0.3p]
+
+Suma: 9.7/10 
